@@ -1,17 +1,16 @@
+const express = require("express");
+
 const categoriesRouter = require("./categoriesRouter");
 const productsRouter = require("./productsRouter");
 const usersRouter = require("./usersRouter");
 
 const routerApi = (app) => {
-  app.get("/", (req, res) => {
-    res.send("Servidor en express");
-  });
-  app.get("/home", (req, res) => {
-    res.send("Home");
-  });
-  app.use("/categories", categoriesRouter);
-  app.use("/products", productsRouter);
-  app.use("/users", usersRouter);
+  const router = express.Router();
+  // Agrega versionamiento a las rutas
+  app.use("/api/v1/", router);
+  router.use("/categories", categoriesRouter);
+  router.use("/products", productsRouter);
+  router.use("/users", usersRouter);
 };
 
 module.exports = routerApi;

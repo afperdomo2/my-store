@@ -3,6 +3,16 @@ const { faker } = require("@faker-js/faker");
 
 const router = express.Router();
 
+// POST
+router.post("/", (req, res) => {
+  const body = req.body;
+  res.json({
+    message: "created",
+    data: body
+  });
+});
+
+// GET
 router.get("/", (req, res) => {
   const { size } = req.query;
 
