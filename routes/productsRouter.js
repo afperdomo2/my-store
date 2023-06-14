@@ -12,6 +12,37 @@ router.post("/", (req, res) => {
   });
 });
 
+// PUT -  Se usa para reemplazar completamente un recurso
+router.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const body = req.body;
+  res.json({
+    message: "updated",
+    id,
+    data: body
+  });
+});
+
+// PATCH - Se usa para parchar o actualizar parcialmente el recurso
+router.patch("/:id", (req, res) => {
+  const { id } = req.params;
+  const body = req.body;
+  res.json({
+    message: "updated",
+    id,
+    data: body
+  });
+});
+
+// DELETE
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
+  res.json({
+    message: "deleted",
+    id
+  });
+});
+
 // GET
 router.get("/", (req, res) => {
   const { size } = req.query;
