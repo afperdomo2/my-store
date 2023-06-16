@@ -1,35 +1,35 @@
-const express = require("express");
-const { faker } = require("@faker-js/faker");
+const express = require('express');
+const { faker } = require('@faker-js/faker');
 
 const router = express.Router();
 
 // POST
-router.post("/", (req, res) => {
+router.post('/', (req, res) => {
   const body = req.body;
   res.status(201).json({
-    message: "created",
-    data: body
+    message: 'created',
+    data: body,
   });
 });
 
 // PUT -  Se usa para reemplazar completamente un recurso
-router.put("/:id", (req, res) => {
+router.put('/:id', (req, res) => {
   const { id } = req.params;
   const body = req.body;
   res.status(200).json({
-    message: "updated",
+    message: 'updated',
     id,
-    data: body
+    data: body,
   });
 });
 
 // PATCH - Se usa para parchar o actualizar parcialmente el recurso
-router.patch("/:id", (req, res) => {
+router.patch('/:id', (req, res) => {
   const { id } = req.params;
   const body = req.body;
   if (body.name === undefined) {
     res.status(500).json({
-      message: "Server Error"
+      message: 'Server Error',
     });
   }
   /**
@@ -43,16 +43,16 @@ router.patch("/:id", (req, res) => {
 });
 
 // DELETE
-router.delete("/:id", (req, res) => {
+router.delete('/:id', (req, res) => {
   const { id } = req.params;
   res.status(200).json({
-    message: "deleted",
-    id
+    message: 'deleted',
+    id,
   });
 });
 
 // GET
-router.get("/", (req, res) => {
+router.get('/', (req, res) => {
   const { size } = req.query;
 
   const products = [];
@@ -68,7 +68,7 @@ router.get("/", (req, res) => {
   res.status(200).json(products);
 });
 
-router.get("/:id", (req, res) => {
+router.get('/:id', (req, res) => {
   const { id } = req.params;
 
   const products = [];
@@ -83,7 +83,7 @@ router.get("/:id", (req, res) => {
   const product = products.filter((p) => p.id === parseInt(id));
   if (product.length === 0) {
     res.status(404).json({
-      "message": "Not Found"
+      message: 'Not Found',
     });
   }
   res.status(200).json(product[0]);
