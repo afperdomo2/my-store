@@ -6,9 +6,9 @@ const router = express.Router();
 const service = new ProductsService();
 
 // POST
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const body = req.body;
-  const newProduct = service.create(body);
+  const newProduct = await service.create(body);
   res.status(201).json(newProduct);
 });
 
@@ -24,34 +24,46 @@ router.post('/', (req, res) => {
 // });
 
 // PATCH - Se usa para parchar o actualizar parcialmente el recurso
-router.patch('/:id', (req, res) => {
-  const { id } = req.params;
-  const body = req.body;
-  const product = service.update(id, body);
-  res.status(200).json(product);
+router.patch('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const body = req.body;
+    const product = await service.update(id, body);
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(404).json({
+      message: error.message,
+    });
+  }
 });
 
 // DELETE
-router.delete('/:id', (req, res) => {
-  const { id } = req.params;
-  service.delete(id);
-  /**
-   * En PUT, PATCH y DELETE, también se puede usar el status 204, que
-   * indica que el servidor ha completado exitosamente la solicitud y
-   * no hay contenido para enviar en el cuerpo de la respuesta
-   */
-  res.status(204).json();
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await service.delete(id);
+    /**
+     * En PUT, PATCH y DELETE, también se puede usar el status 204, que
+     * indica que el servidor ha completado exitosamente la solicitud y
+     * no hay contenido para enviar en el cuerpo de la respuesta
+     */
+    res.status(204).json();
+  } catch (error) {
+    res.status(404).json({
+      message: error.message,
+    });
+  }
 });
 
 // GET
-router.get('/', (req, res) => {
-  const products = service.find();
+router.get('/', async (req, res) => {
+  const products = await service.find();
   res.status(200).json(products);
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   const { id } = req.params;
-  const product = service.findOne(id);
+  const product = await service.findOne(id);
   res.status(200).json(product);
 });
 
