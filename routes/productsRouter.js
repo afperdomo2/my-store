@@ -31,14 +31,12 @@ router.patch('/:id', async (req, res) => {
     const product = await service.update(id, body);
     res.status(200).json(product);
   } catch (error) {
-    res.status(404).json({
-      message: error.message,
-    });
+    next(error);
   }
 });
 
 // DELETE
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     await service.delete(id);
@@ -49,9 +47,7 @@ router.delete('/:id', async (req, res) => {
      */
     res.status(204).json();
   } catch (error) {
-    res.status(404).json({
-      message: error.message,
-    });
+    next(error);
   }
 });
 
