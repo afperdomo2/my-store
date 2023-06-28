@@ -4,6 +4,15 @@ function logErrors(err, req, res, next) {
   next(err);
 }
 
+function boomErrorHandler(err, req, res, next) {
+  console.log('🚀 ~ file: errorHandler.js:8 ~ boomErrorHandler');
+  if (!err.isBoom) {
+    next(err);
+  }
+  const { output } = err;
+  res.status(output.statusCode).json(output.payload);
+}
+
 function errorHandler(err, req, res, next) {
   console.log('🚀 ~ file: errorHandler.js:8 ~ errorHandler');
   res.status(500).json({
@@ -12,4 +21,4 @@ function errorHandler(err, req, res, next) {
   });
 }
 
-module.exports = { logErrors, errorHandler };
+module.exports = { logErrors, boomErrorHandler, errorHandler };

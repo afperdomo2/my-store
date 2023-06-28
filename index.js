@@ -1,7 +1,11 @@
 const express = require('express');
 const routerApi = require('./routes');
 
-const { logErrors, errorHandler } = require('./middlewares/errorHandler');
+const {
+  logErrors,
+  boomErrorHandler,
+  errorHandler,
+} = require('./middlewares/errorHandler');
 
 const app = express();
 const port = 3000;
@@ -14,8 +18,12 @@ const port = 3000;
 app.use(express.json());
 routerApi(app);
 
-// Ejecución de los middlewares
+/**
+ * Ejecución de los middlewares
+ * Es importante tener en cuenta el orden de ejecución
+ */
 app.use(logErrors);
+app.use(boomErrorHandler);
 app.use(errorHandler);
 
 app.listen(port, () => {
