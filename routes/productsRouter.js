@@ -24,13 +24,14 @@ router.post('/', async (req, res) => {
 // });
 
 // PATCH - Se usa para parchar o actualizar parcialmente el recurso
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const body = req.body;
     const product = await service.update(id, body);
     res.status(200).json(product);
   } catch (error) {
+    // EL next ejecuta el middleware
     next(error);
   }
 });
