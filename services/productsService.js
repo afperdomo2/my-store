@@ -9,8 +9,9 @@ class ProductsService {
 
   async create(data) {
     const newProduct = {
-      id: faker.datatype.uuid(),
+      id: faker.string.uuid(),
       ...data,
+      isBlock: false,
     };
     this.products.push(newProduct);
     return newProduct;
@@ -25,7 +26,7 @@ class ProductsService {
   }
 
   async findOne(id) {
-    const index = this.products.findIndex((p) => p.id === parseInt(id));
+    const index = this.products.findIndex((p) => p.id === id);
     if (index === -1) {
       throw Boom.notFound('⚠️Product not found');
     }
@@ -37,7 +38,7 @@ class ProductsService {
   }
 
   async update(id, changes) {
-    const index = this.products.findIndex((p) => p.id === parseInt(id));
+    const index = this.products.findIndex((p) => p.id === id);
     if (index === -1) {
       throw Boom.notFound('⚠️Product not found');
     }
@@ -50,7 +51,7 @@ class ProductsService {
   }
 
   async delete(id) {
-    const index = this.products.findIndex((p) => p.id === parseInt(id));
+    const index = this.products.findIndex((p) => p.id === id);
     if (index === -1) {
       throw Boom.notFound('⚠️Product not found');
     }
@@ -59,9 +60,9 @@ class ProductsService {
   }
 
   generate() {
-    for (let index = 0; index < 100; index++) {
+    for (let i = 0; i < 100; i++) {
       this.products.push({
-        id: index + 1,
+        id: faker.string.uuid(),
         name: faker.commerce.productName(),
         price: parseInt(faker.commerce.price(), 10),
         image: faker.image.url(),
