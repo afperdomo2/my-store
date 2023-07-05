@@ -28,7 +28,7 @@ app.use(express.json());
 const whiteList = ['http://localhost:8080', 'http://localhost:4000'];
 const options = {
   origin: (origin, callback) => {
-    if (!whiteList.includes(origin) || !origin) {
+    if (!whiteList.includes(origin) && origin) {
       callback(new Error('Acceso no permitido'));
     }
     callback(null, true);
