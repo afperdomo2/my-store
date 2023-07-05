@@ -1,3 +1,27 @@
+## 💻Project Setup
+
+```sh
+npm install
+```
+
+### Run Development
+
+```sh
+npm run dev
+```
+
+### Run Production
+
+```sh
+npm run start
+```
+
+### Run linter
+
+```sh
+npm run lint
+```
+
 ## 🐳 Docker
 
 ### Build the image
