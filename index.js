@@ -10,8 +10,7 @@ const {
 } = require('./middlewares/errorHandler');
 
 const app = express();
-const PORT = 3000;
-const STATIC_PORT = 4000;
+const PORT = process.env.PORT || 3000;
 
 // STATIC FILES
 const staticDir = path.join(__dirname, 'public');
@@ -49,8 +48,4 @@ app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.info(`✅ Server express on: http://localhost:${PORT}`);
-});
-
-app.listen(STATIC_PORT, () => {
-  console.log(`✅ Static Dir on: http://localhost:${STATIC_PORT}`);
 });
