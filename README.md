@@ -35,3 +35,11 @@ docker build -t my-store-image .
 ```sh
 docker run -d -p 3000:3000 --name my-store my-store-image
 ```
+
+## 🐳 Docker Compose
+
+### PostgreSQL
+
+```sh
+docker-compose up -d postgres
+```
