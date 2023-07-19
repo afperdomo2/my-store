@@ -22,7 +22,7 @@ const UserSchema = {
     allowNull: false,
     type: DataTypes.DATE,
     field: 'created_at',
-    defaultValue: Sequelize.NOW,
+    defaultValue: DataTypes.NOW,
   },
 };
 
