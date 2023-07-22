@@ -44,8 +44,8 @@ routerApi(app);
  * Es importante tener en cuenta el orden de ejecución
  */
 app.use(logErrors);
-app.use(ormErrorHandler);
 app.use(boomErrorHandler);
+app.use(ormErrorHandler);
 app.use(errorHandler);
 
 app.listen(PORT, () => {
