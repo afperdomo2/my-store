@@ -1,72 +1,37 @@
-const { faker } = require('@faker-js/faker');
 const Boom = require('@hapi/boom');
-const sequelize = require('../libs/sequelize');
+const { models } = require('../libs/sequelize');
 
 class ProductService {
-  constructor() {
-    this.products = [];
-    this.generate();
-  }
+  constructor() {}
 
   async create(data) {
-    const newProduct = {
-      id: faker.string.uuid(),
-      ...data,
-      isBlock: false,
-    };
-    this.products.push(newProduct);
-    return newProduct;
+    return await models.Product.create(data);
   }
 
   async find() {
-    const [data, metadata] = await sequelize.query('SELECT * FROM tasks');
-    return data;
+    return await models.Product.findAll({
+      include: ['category'],
+    });
   }
 
   async findOne(id) {
-    const index = this.products.findIndex((p) => p.id === id);
-    if (index === -1) {
+    const product = await models.Product.findByPk(id, {
+      include: ['category'],
+    });
+    if (!product) {
       throw Boom.notFound('⚠️Product not found');
-    }
-    const product = this.products[index];
-    if (product.isBlock) {
-      throw Boom.conflict('🔒Product is Block');
     }
     return product;
   }
 
   async update(id, changes) {
-    const index = this.products.findIndex((p) => p.id === id);
-    if (index === -1) {
-      throw Boom.notFound('⚠️Product not found');
-    }
-    const product = this.products[index];
-    this.products[index] = {
-      ...product,
-      ...changes,
-    };
-    return this.products[index];
+    const product = await this.findOne(id);
+    return await product.update(changes);
   }
 
   async delete(id) {
-    const index = this.products.findIndex((p) => p.id === id);
-    if (index === -1) {
-      throw Boom.notFound('⚠️Product not found');
-    }
-    this.products.splice(index, 1);
-    return id;
-  }
-
-  generate() {
-    for (let i = 0; i < 100; i++) {
-      this.products.push({
-        id: faker.string.uuid(),
-        name: faker.commerce.productName(),
-        price: parseInt(faker.commerce.price(), 10),
-        image: faker.image.url(),
-        isBlock: faker.datatype.boolean(),
-      });
-    }
+    const product = await this.findOne(id);
+    return await product.destroy();
   }
 }
 
