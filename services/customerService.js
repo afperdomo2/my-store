@@ -9,7 +9,9 @@ class customerService {
   }
 
   async find() {
-    return await models.Customer.findAll();
+    return await models.Customer.findAll({
+      include: ['user'],
+    });
   }
 
   async findOne(id) {
