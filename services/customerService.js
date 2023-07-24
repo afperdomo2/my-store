@@ -5,7 +5,11 @@ class customerService {
   constructor() {}
 
   async create(data) {
-    return await models.Customer.create(data);
+    const newUser = await models.User.create(data.user);
+    return await models.Customer.create({
+      ...data,
+      userId: newUser.id,
+    });
   }
 
   async find() {

@@ -13,11 +13,11 @@ const CustomerSchema = {
   name: {
     allowNull: false,
     type: DataTypes.STRING,
-    field: 'last_name',
   },
   lastName: {
     allowNull: false,
     type: DataTypes.STRING,
+    field: 'last_name',
   },
   phone: {
     allowNull: true,
