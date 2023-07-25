@@ -6,6 +6,7 @@ const {
   createProductSchema,
   updateProductSchema,
   getProductSchema,
+  queryProductSchema,
 } = require('../schemas/productSchema');
 
 const router = express.Router();
@@ -21,17 +22,6 @@ router.post(
     res.status(201).json(newProduct);
   }
 );
-
-// PUT -  Se usa para reemplazar completamente un recurso
-// router.put('/:id', (req, res) => {
-//   const { id } = req.params;
-//   const body = req.body;
-//   res.status(200).json({
-//     message: 'updated',
-//     id,
-//     data: body,
-//   });
-// });
 
 // PATCH - Se usa para parchar o actualizar parcialmente el recurso
 router.patch(
@@ -72,10 +62,18 @@ router.delete(
 );
 
 // GET
-router.get('/', async (req, res, next) => {
-  const products = await service.find();
-  res.status(200).json(products);
-});
+router.get(
+  '/',
+  validatorHandler(queryProductSchema, 'query'),
+  async (req, res, next) => {
+    try {
+      const products = await service.find(req.query);
+      res.status(200).json(products);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 router.get(
   '/:id',
