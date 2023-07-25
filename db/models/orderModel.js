@@ -25,6 +25,17 @@ const OrderSchema = {
     allowNull: false,
     type: DataTypes.STRING,
   },
+  total: {
+    type: DataTypes.VIRTUAL,
+    get() {
+      if (this.items.length > 0) {
+        return this.items.reduce((total, { price, OrderProduct }) => {
+          return total + price * OrderProduct.amount;
+        }, 0);
+      }
+      return 0;
+    },
+  },
   createdAt: {
     field: 'created_at',
     allowNull: false,
