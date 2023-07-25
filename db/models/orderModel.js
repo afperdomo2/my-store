@@ -35,8 +35,19 @@ const OrderSchema = {
 
 class Order extends Model {
   static associate(models) {
-    this.belongsTo(models.Customer, {
-      as: 'customer',
+    this.belongsTo(models.Customer, { as: 'customer' });
+    /**
+     * 'orders' se conecta a la tabla de 'orders_products' con el through,
+     * a traves de la relación: 'products.id' - 'orders_products.productId'.
+     *
+     * Luego, obtiene los los datos de 'products', por la relación:
+     * 'orders_products.productId' - 'products.id'.
+     */
+    this.belongsToMany(models.Product, {
+      as: 'items',
+      through: models.OrderProduct,
+      foreignKey: 'orderId',
+      otherKey: 'productId',
     });
   }
 
