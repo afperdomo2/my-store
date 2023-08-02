@@ -10,6 +10,9 @@ const categoryId = Joi.number().integer();
 const limit = Joi.number().integer();
 const offset = Joi.number().integer();
 
+const price_min = Joi.number().integer().min(10);
+const price_max = Joi.number().integer().min(10);
+
 const getProductSchema = Joi.object({
   id: id.required(),
 });
@@ -33,6 +36,16 @@ const updateProductSchema = Joi.object({
 const queryProductSchema = Joi.object({
   limit,
   offset,
+  price,
+  price_min,
+  /**
+   * price_max se vuelve requerido siempre y cuando
+   * venga un price_min y este sea numérico
+   */
+  price_max: price_max.when('price_min', {
+    is: Joi.number().integer(),
+    then: Joi.required(),
+  }),
 });
 
 module.exports = {
