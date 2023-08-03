@@ -43,7 +43,7 @@ const queryProductSchema = Joi.object({
    * venga un price_min y este sea numérico
    */
   price_max: price_max.when('price_min', {
-    is: Joi.number().integer(),
+    is: Joi.number().integer().required(),
     then: Joi.required(),
   }),
 });
