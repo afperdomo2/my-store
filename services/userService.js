@@ -5,7 +5,9 @@ class UserService {
   constructor() {}
 
   async create(data) {
-    return await models.User.create(data);
+    const newUser = await models.User.create(data);
+    delete newUser.dataValues.password;
+    return newUser;
   }
 
   async find() {
