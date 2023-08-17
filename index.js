@@ -36,6 +36,7 @@ const options = {
   },
 };
 app.use(cors(options));
+require('./utils/auth');
 
 // ROUTES
 app.get('/nueva-ruta', checkApiKey, (req, res) => {
