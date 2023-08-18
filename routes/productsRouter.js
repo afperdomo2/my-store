@@ -12,7 +12,6 @@ const passport = require('passport');
 
 const router = express.Router();
 const service = new ProductService();
-
 const validateTokenJwt = passport.authenticate('jwt', { session: false });
 
 // POST
@@ -70,7 +69,6 @@ router.delete(
 // GET
 router.get(
   '/',
-  validateTokenJwt,
   validatorHandler(queryProductSchema, 'query'),
   async (req, res, next) => {
     try {
@@ -84,7 +82,6 @@ router.get(
 
 router.get(
   '/:id',
-  validateTokenJwt,
   validatorHandler(getProductSchema, 'params'),
   async (req, res, next) => {
     try {

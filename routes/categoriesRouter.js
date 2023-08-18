@@ -6,9 +6,11 @@ const {
   createCategorySchema,
   getCategorySchema,
 } = require('./../schemas/categorySchema');
+const passport = require('passport');
 
 const router = express.Router();
 const service = new CategoryService();
+const validateTokenJwt = passport.authenticate('jwt', { session: false });
 
 router.get('/', async (req, res, next) => {
   try {
@@ -35,6 +37,7 @@ router.get(
 
 router.post(
   '/',
+  validateTokenJwt,
   validatorHandler(createCategorySchema, 'body'),
   async (req, res, next) => {
     try {
@@ -49,6 +52,7 @@ router.post(
 
 router.patch(
   '/:id',
+  validateTokenJwt,
   validatorHandler(getCategorySchema, 'params'),
   validatorHandler(updateCategorySchema, 'body'),
   async (req, res, next) => {
@@ -65,6 +69,7 @@ router.patch(
 
 router.delete(
   '/:id',
+  validateTokenJwt,
   validatorHandler(getCategorySchema, 'params'),
   async (req, res, next) => {
     try {

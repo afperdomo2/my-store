@@ -7,9 +7,11 @@ const {
   getOrderSchema,
   addItemSchema,
 } = require('./../schemas/orderSchema');
+const passport = require('passport');
 
 const router = express.Router();
 const service = new OrderService();
+const validateTokenJwt = passport.authenticate('jwt', { session: false });
 
 router.get('/', async (req, res, next) => {
   try {
@@ -36,6 +38,7 @@ router.get(
 
 router.post(
   '/',
+  validateTokenJwt,
   validatorHandler(createOrderSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -50,6 +53,7 @@ router.post(
 
 router.patch(
   '/:id',
+  validateTokenJwt,
   validatorHandler(getOrderSchema, 'params'),
   validatorHandler(updateOrderSchema, 'body'),
   async (req, res, next) => {
@@ -66,6 +70,7 @@ router.patch(
 
 router.delete(
   '/:id',
+  validateTokenJwt,
   validatorHandler(getOrderSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -80,6 +85,7 @@ router.delete(
 
 router.post(
   '/add-item',
+  validateTokenJwt,
   validatorHandler(addItemSchema, 'body'),
   async (req, res, next) => {
     try {

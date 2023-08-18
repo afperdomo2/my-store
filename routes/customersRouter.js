@@ -6,9 +6,11 @@ const {
   createCustomerSchema,
   getCustomerSchema,
 } = require('./../schemas/customerSchema');
+const passport = require('passport');
 
 const router = express.Router();
 const service = new CustomerService();
+const validateTokenJwt = passport.authenticate('jwt', { session: false });
 
 router.get('/', async (req, res, next) => {
   try {
@@ -35,6 +37,7 @@ router.get(
 
 router.post(
   '/',
+  validateTokenJwt,
   validatorHandler(createCustomerSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -49,6 +52,7 @@ router.post(
 
 router.patch(
   '/:id',
+  validateTokenJwt,
   validatorHandler(getCustomerSchema, 'params'),
   validatorHandler(updateCustomerSchema, 'body'),
   async (req, res, next) => {
@@ -65,6 +69,7 @@ router.patch(
 
 router.delete(
   '/:id',
+  validateTokenJwt,
   validatorHandler(getCustomerSchema, 'params'),
   async (req, res, next) => {
     try {
