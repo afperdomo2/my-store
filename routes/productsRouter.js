@@ -8,13 +8,17 @@ const {
   getProductSchema,
   queryProductSchema,
 } = require('../schemas/productSchema');
+const passport = require('passport');
 
 const router = express.Router();
 const service = new ProductService();
 
+const validateTokenJwt = passport.authenticate('jwt', { session: false });
+
 // POST
 router.post(
   '/',
+  validateTokenJwt,
   validatorHandler(createProductSchema, 'body'),
   async (req, res, next) => {
     const body = req.body;
@@ -26,6 +30,7 @@ router.post(
 // PATCH - Se usa para parchar o actualizar parcialmente el recurso
 router.patch(
   '/:id',
+  validateTokenJwt,
   validatorHandler(getProductSchema, 'params'),
   validatorHandler(updateProductSchema, 'body'),
   async (req, res, next) => {
@@ -44,6 +49,7 @@ router.patch(
 // DELETE
 router.delete(
   '/:id',
+  validateTokenJwt,
   validatorHandler(getProductSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -64,6 +70,7 @@ router.delete(
 // GET
 router.get(
   '/',
+  validateTokenJwt,
   validatorHandler(queryProductSchema, 'query'),
   async (req, res, next) => {
     try {
@@ -77,6 +84,7 @@ router.get(
 
 router.get(
   '/:id',
+  validateTokenJwt,
   validatorHandler(getProductSchema, 'params'),
   async (req, res, next) => {
     try {
