@@ -13,6 +13,8 @@ const config = {
   dbName: process.env.DB_NAME,
   // APIs
   apiKey: process.env.API_KEY,
+  // JWT
+  jwtSecret: process.env.JWT_SECRET,
 };
 
 module.exports = { config };
