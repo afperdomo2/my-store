@@ -2,6 +2,7 @@ const express = require('express');
 
 const ProductService = require('../services/productService');
 const validatorHandler = require('../middlewares/validatorHandler');
+const { checkRoles } = require('../middlewares/authHandler');
 const {
   createProductSchema,
   updateProductSchema,
@@ -12,12 +13,16 @@ const passport = require('passport');
 
 const router = express.Router();
 const service = new ProductService();
-const validateTokenJwt = passport.authenticate('jwt', { session: false });
+
+const checkAuthentication = passport.authenticate('jwt', { session: false });
+const UPDATE_ROLES = ['admin', 'seller'];
+const CONSULT_ROLES = [...UPDATE_ROLES, 'customer'];
 
 // POST
 router.post(
   '/',
-  validateTokenJwt,
+  checkAuthentication,
+  checkRoles(...UPDATE_ROLES),
   validatorHandler(createProductSchema, 'body'),
   async (req, res, next) => {
     const body = req.body;
@@ -29,7 +34,8 @@ router.post(
 // PATCH - Se usa para parchar o actualizar parcialmente el recurso
 router.patch(
   '/:id',
-  validateTokenJwt,
+  checkAuthentication,
+  checkRoles(...UPDATE_ROLES),
   validatorHandler(getProductSchema, 'params'),
   validatorHandler(updateProductSchema, 'body'),
   async (req, res, next) => {
@@ -48,7 +54,8 @@ router.patch(
 // DELETE
 router.delete(
   '/:id',
-  validateTokenJwt,
+  checkAuthentication,
+  checkRoles(...UPDATE_ROLES),
   validatorHandler(getProductSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -69,6 +76,8 @@ router.delete(
 // GET
 router.get(
   '/',
+  checkAuthentication,
+  checkRoles(...CONSULT_ROLES),
   validatorHandler(queryProductSchema, 'query'),
   async (req, res, next) => {
     try {
@@ -82,6 +91,8 @@ router.get(
 
 router.get(
   '/:id',
+  checkAuthentication,
+  checkRoles(...CONSULT_ROLES),
   validatorHandler(getProductSchema, 'params'),
   async (req, res, next) => {
     try {

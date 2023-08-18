@@ -1,6 +1,7 @@
 const express = require('express');
 const CustomerService = require('./../services/customerService');
 const validatorHandler = require('./../middlewares/validatorHandler');
+const { checkRoles } = require('../middlewares/authHandler');
 const {
   updateCustomerSchema,
   createCustomerSchema,
@@ -10,7 +11,10 @@ const passport = require('passport');
 
 const router = express.Router();
 const service = new CustomerService();
-const validateTokenJwt = passport.authenticate('jwt', { session: false });
+
+const checkAuthentication = passport.authenticate('jwt', { session: false });
+const rolesUpdate = ['admin', 'seller'];
+const rolesConsult = [...rolesUpdate, 'customer'];
 
 router.get('/', async (req, res, next) => {
   try {
@@ -37,7 +41,7 @@ router.get(
 
 router.post(
   '/',
-  validateTokenJwt,
+  checkAuthentication,
   validatorHandler(createCustomerSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -52,7 +56,7 @@ router.post(
 
 router.patch(
   '/:id',
-  validateTokenJwt,
+  checkAuthentication,
   validatorHandler(getCustomerSchema, 'params'),
   validatorHandler(updateCustomerSchema, 'body'),
   async (req, res, next) => {
@@ -69,7 +73,7 @@ router.patch(
 
 router.delete(
   '/:id',
-  validateTokenJwt,
+  checkAuthentication,
   validatorHandler(getCustomerSchema, 'params'),
   async (req, res, next) => {
     try {
