@@ -28,12 +28,15 @@ const OrderSchema = {
   total: {
     type: DataTypes.VIRTUAL,
     get() {
-      if (this.items.length > 0) {
-        return this.items.reduce((total, { price, OrderProduct }) => {
-          return total + price * OrderProduct.amount;
-        }, 0);
+      if (!this.items) {
+        return 0;
       }
-      return 0;
+      if (this.items.length <= 0) {
+        return 0;
+      }
+      return this.items.reduce((total, { price, OrderProduct }) => {
+        return total + price * OrderProduct.amount;
+      }, 0);
     },
   },
   createdAt: {

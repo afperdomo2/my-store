@@ -55,8 +55,8 @@ router.post(
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newCustomer = await service.create(body);
-      res.status(201).json(newCustomer);
+      const newOrder = await service.create(body);
+      res.status(201).json(newOrder);
     } catch (error) {
       next(error);
     }

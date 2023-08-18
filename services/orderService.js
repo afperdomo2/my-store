@@ -14,6 +14,20 @@ class OrderService {
     });
   }
 
+  async findByUser(userId) {
+    return await models.Order.findAll({
+      where: {
+        '$customer.user.id$': userId,
+      },
+      include: [
+        {
+          association: 'customer',
+          include: ['user'],
+        },
+      ],
+    });
+  }
+
   async findOne(id) {
     const order = await models.Order.findByPk(id, {
       include: [
