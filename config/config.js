@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const config = {
   // Aplicación
-  env: process.env.NODE_ENV || 'dev',
+  env: process.env.NODE_ENV || 'development',
   port: process.env.PORT || 3000,
   // Base de datos
   dbDialect: process.env.DB_DIALECT,
