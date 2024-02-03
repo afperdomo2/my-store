@@ -1,38 +1,26 @@
 ## 💻Project Setup
 
 ```sh
+# Install dependencies
 npm install
-```
 
-### Run Development
-
-```sh
+# Run Development
 npm run dev
-```
 
-### Run Production
-
-```sh
+# Run Production
 npm run start
-```
 
-### Run linter
-
-```sh
+# Run linter
 npm run lint
 ```
 
 ## 🐳 Docker
 
-### Build the image
-
 ```sh
+# Build the image
 docker build -t my-store-image .
-```
 
-### Run the container
-
-```sh
+# Run the container
 docker run -d -p 3000:3000 --name my-store my-store-image
 ```
 
