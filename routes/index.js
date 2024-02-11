@@ -1,4 +1,5 @@
 const express = require('express');
+const expressListRoutes = require('express-list-routes');
 
 const categoriesRouter = require('./categoriesRouter');
 const productsRouter = require('./productsRouter');
@@ -10,6 +11,7 @@ const profileRouter = require('./profileRouter');
 
 const routerApi = (app) => {
   const router = express.Router();
+
   // Agrega versionamiento a las rutas
   app.use('/api/v1/', router);
   router.use('/categories', categoriesRouter);
@@ -19,6 +21,8 @@ const routerApi = (app) => {
   router.use('/orders', ordersRouter);
   router.use('/auth', authRouter);
   router.use('/profile', profileRouter);
+
+  expressListRoutes(router, { prefix: '/api/v1' });
 };
 
 module.exports = routerApi;

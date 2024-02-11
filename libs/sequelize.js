@@ -1,14 +1,16 @@
 const { Sequelize } = require('sequelize');
+
 const { config } = require('../config/config');
 const setupModels = require('../db/models/index');
 
-const { dbDialect: DIALECT, dbHost: HOST, dbPort: PORT, dbName: NAME } = config;
-const USER = encodeURIComponent(config.dbUser);
-const PASSWORD = encodeURIComponent(config.dbPassword);
+const { dbDialect, dbHost, dbPort, dbName } = config;
 
-const URI = `${DIALECT}://${USER}:${PASSWORD}@${HOST}:${PORT}/${NAME}`;
+const user = encodeURIComponent(config.dbUser);
+const password = encodeURIComponent(config.dbPassword);
 
-const sequelize = new Sequelize(URI, { dialect: DIALECT, logging: true });
+const URI = `${dbDialect}://${user}:${password}@${dbHost}:${dbPort}/${dbName}`;
+
+const sequelize = new Sequelize(URI, { dialect: dbDialect, logging: true });
 
 setupModels(sequelize);
 //sequelize.sync();
