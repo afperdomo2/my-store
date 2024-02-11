@@ -1,5 +1,4 @@
 // Archivo para probar la librería
-
 const jwt = require('jsonwebtoken');
 
 const secretKey = 'migato';

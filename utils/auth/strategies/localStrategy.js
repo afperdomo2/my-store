@@ -1,7 +1,8 @@
 const { Strategy } = require('passport-local');
-const UserService = require('../../../services/userService');
 const Boom = require('@hapi/boom');
 const bcrypt = require('bcrypt');
+
+const UserService = require('../../../services/userService');
 
 const service = new UserService();
 

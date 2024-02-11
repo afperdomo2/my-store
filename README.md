@@ -34,5 +34,3 @@ docker-compose up -d
 docker-compose up -d postgres
 docker-compose up -d pgadmin
 ```
-
-⚠️En el archivo de `queries.sql`, se encontrarán los scripts para crear las tablas necesarias.
